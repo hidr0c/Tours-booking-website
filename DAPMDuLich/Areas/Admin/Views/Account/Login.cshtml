@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng nhập</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('/Areas/User/assets/HinhAnh/dangnhap.jpg');
+            no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+            .login-container h1 {
+                margin-bottom: 24px;
+                font-size: 28px; /* Increased font size */
+                color: #333;
+                text-align: center;
+            }
+
+            .login-container label {
+                display: block;
+                margin: 10px 0 5px;
+                font-size: 18px; /* Increased font size */
+                color: #333;
+                text-align: left; /* Align labels to the left */
+            }
+
+            .login-container input[type="text"],
+            .login-container input[type="password"] {
+                width: calc(100% - 20px);
+                padding: 12px; /* Increased padding for larger input fields */
+                margin: 10px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 16px; /* Increased font size */
+            }
+
+            .login-container button {
+                background: #007bff;
+                color: #fff;
+                border: none;
+                padding: 12px 20px; /* Increased padding */
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 18px; /* Increased font size */
+                width: calc(100% - 20px);
+                margin-top: 20px;
+            }
+
+                .login-container button:hover {
+                    background: #0056b3;
+                }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Đăng nhập</h1>
+        <form method="post">
+            <div>
+                <label for="tenDangNhap">Tên đăng nhập: </label>
+                <input type="text" id="tenDangNhap" name="tenDangNhap" />
+            </div>
+            <div>
+                <label for="matKhau">Mật khẩu: </label>
+                <input type="password" id="matKhau" name="matKhau" />
+            </div>
+            <div>
+                <button type="submit">ĐĂNG NHẬP</button>
+                <p class="error-message">@ViewBag.thongbao</p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

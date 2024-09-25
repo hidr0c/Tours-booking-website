@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DAPMDuLich.Models.TaiKhoan>
+@{
+    ViewBag.Title = "DanhSach";
+    Layout = "~/Areas/Admin/Views/Shared/layoutadmin.cshtml";
+    int i = 0;
+}
+
+<div class="row" style="margin-top:50px">
+    <div class="col-md-12">
+        <h3>DANH SÁCH TÀI KHOẢN</h3>
+    </div>
+    <div class="col-md-12">
+        <p>
+            <a href="~/admin/Account/Create">Thêm mới</a>
+        </p>
+        <table class="table table-bordered">
+            <tr>
+                <th>STT</th>
+                <th>ID </th>
+                <th>Tên Đăng Nhập</th>
+                <th>Mật Khẩu</th>
+                <th>Họ Tên Đầy Đủ</th>
+                <th>Email</th>
+                <th>Số Điện Thoại</th>
+                <th>Địa Chỉ</th>
+                <th>Ngày Tạo</th>
+                <th>Vai Trò</th>
+                <th>Số tiền hiện có</th>
+                <th>#</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td>@i</td>
+                    <td>@item.UserID</td>
+                    <td>@item.TenDangNhap</td>
+                    <td>@item.MatKhau</td>
+                    <td>@item.TenHienThi</td>
+                    <td>@item.Email</td>
+                    <td>@item.SoDienThoai</td>
+                    <td>@item.DiaChi</td>
+                    <td>@item.CreateAt</td>
+                    <td>@item.Role</td>
+                    <td>@item.Tien VND</td>
+                    <td>
+
+                        @Html.ActionLink("Cập nhật", "Edit", "Account", new { id = item.UserID }, null)
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

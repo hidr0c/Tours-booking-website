@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DAPMDuLichModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DatTour">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="CreateAt" Type="datetime" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="ThanhToan" Type="bit" />
+          <Property Name="MaThanhToan" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DatTourChiTiet">
+          <Key>
+            <PropertyRef Name="BookingDetailID" />
+          </Key>
+          <Property Name="BookingDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" />
+          <Property Name="TravelerCount" Type="int" />
+          <Property Name="CreateAt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoaiTour">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="idCapCha" Type="int" />
+          <Property Name="Ten" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MucGia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Gia" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenDangNhap" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="MatKhau" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TenHienThi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SoDienThoai" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreateAt" Type="datetime" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="Tien" Type="money" />
+        </EntityType>
+        <EntityType Name="TinhThanh">
+          <Key>
+            <PropertyRef Name="ID_Tinh" />
+          </Key>
+          <Property Name="ID_Tinh" Type="int" Nullable="false" />
+          <Property Name="Ten" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="TourDuLich">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TieuDe" Type="nvarchar" MaxLength="255" />
+          <Property Name="HinhAnh" Type="nvarchar(max)" />
+          <Property Name="TripStart" Type="datetime" />
+          <Property Name="TripEnd" Type="datetime" />
+          <Property Name="LichTrinh" Type="nvarchar(max)" />
+          <Property Name="DiaDiem" Type="nvarchar(max)" />
+          <Property Name="SoNguoiToiDa" Type="int" />
+          <Property Name="PhuongTien" Type="nvarchar" MaxLength="100" />
+          <Property Name="GiaTour" Type="money" />
+          <Property Name="BaiViet" Type="nvarchar(max)" />
+          <Property Name="idTinh" Type="int" />
+          <Property Name="idLoaiTour" Type="int" />
+          <Property Name="idMucGia" Type="int" />
+        </EntityType>
+        <Association Name="FK__DatTour__ID__440B1D61">
+          <End Role="TourDuLich" Type="Self.TourDuLich" Multiplicity="0..1" />
+          <End Role="DatTour" Type="Self.DatTour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TourDuLich">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DatTour">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DatTour__UserID__44FF419A">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="0..1" />
+          <End Role="DatTour" Type="Self.DatTour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="DatTour">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DatTourCh__Booki__47DBAE45">
+          <End Role="DatTour" Type="Self.DatTour" Multiplicity="1" />
+          <End Role="DatTourChiTiet" Type="Self.DatTourChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DatTour">
+              <PropertyRef Name="BookingID" />
+            </Principal>
+            <Dependent Role="DatTourChiTiet">
+              <PropertyRef Name="BookingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TourDuLic__idLoa__403A8C7D">
+          <End Role="LoaiTour" Type="Self.LoaiTour" Multiplicity="0..1" />
+          <End Role="TourDuLich" Type="Self.TourDuLich" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiTour">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TourDuLich">
+              <PropertyRef Name="idLoaiTour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TourDuLic__idMuc__412EB0B6">
+          <End Role="MucGia" Type="Self.MucGia" Multiplicity="0..1" />
+          <End Role="TourDuLich" Type="Self.TourDuLich" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MucGia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TourDuLich">
+              <PropertyRef Name="idMucGia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TourDuLic__idTin__3F466844">
+          <End Role="TinhThanh" Type="Self.TinhThanh" Multiplicity="0..1" />
+          <End Role="TourDuLich" Type="Self.TourDuLich" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TinhThanh">
+              <PropertyRef Name="ID_Tinh" />
+            </Principal>
+            <Dependent Role="TourDuLich">
+              <PropertyRef Name="idTinh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DAPMDuLichModelStoreContainer">
+          <EntitySet Name="DatTour" EntityType="Self.DatTour" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DatTourChiTiet" EntityType="Self.DatTourChiTiet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoaiTour" EntityType="Self.LoaiTour" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MucGia" EntityType="Self.MucGia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TinhThanh" EntityType="Self.TinhThanh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TourDuLich" EntityType="Self.TourDuLich" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DatTour__ID__440B1D61" Association="Self.FK__DatTour__ID__440B1D61">
+            <End Role="TourDuLich" EntitySet="TourDuLich" />
+            <End Role="DatTour" EntitySet="DatTour" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DatTour__UserID__44FF419A" Association="Self.FK__DatTour__UserID__44FF419A">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="DatTour" EntitySet="DatTour" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DatTourCh__Booki__47DBAE45" Association="Self.FK__DatTourCh__Booki__47DBAE45">
+            <End Role="DatTour" EntitySet="DatTour" />
+            <End Role="DatTourChiTiet" EntitySet="DatTourChiTiet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TourDuLic__idLoa__403A8C7D" Association="Self.FK__TourDuLic__idLoa__403A8C7D">
+            <End Role="LoaiTour" EntitySet="LoaiTour" />
+            <End Role="TourDuLich" EntitySet="TourDuLich" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TourDuLic__idMuc__412EB0B6" Association="Self.FK__TourDuLic__idMuc__412EB0B6">
+            <End Role="MucGia" EntitySet="MucGia" />
+            <End Role="TourDuLich" EntitySet="TourDuLich" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TourDuLic__idTin__3F466844" Association="Self.FK__TourDuLic__idTin__3F466844">
+            <End Role="TinhThanh" EntitySet="TinhThanh" />
+            <End Role="TourDuLich" EntitySet="TourDuLich" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DAPMDuLichModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DatTour">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="CreateAt" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="ThanhToan" Type="Boolean" />
+          <Property Name="MaThanhToan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TourDuLich" Relationship="Self.FK__DatTour__ID__440B1D61" FromRole="DatTour" ToRole="TourDuLich" />
+          <NavigationProperty Name="TaiKhoan" Relationship="Self.FK__DatTour__UserID__44FF419A" FromRole="DatTour" ToRole="TaiKhoan" />
+          <NavigationProperty Name="DatTourChiTiets" Relationship="Self.FK__DatTourCh__Booki__47DBAE45" FromRole="DatTour" ToRole="DatTourChiTiet" />
+        </EntityType>
+        <EntityType Name="DatTourChiTiet">
+          <Key>
+            <PropertyRef Name="BookingDetailID" />
+          </Key>
+          <Property Name="BookingDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TravelerCount" Type="Int32" />
+          <Property Name="CreateAt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="DatTour" Relationship="Self.FK__DatTourCh__Booki__47DBAE45" FromRole="DatTourChiTiet" ToRole="DatTour" />
+        </EntityType>
+        <EntityType Name="LoaiTour">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="idCapCha" Type="Int32" />
+          <Property Name="Ten" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TourDuLiches" Relationship="Self.FK__TourDuLic__idLoa__403A8C7D" FromRole="LoaiTour" ToRole="TourDuLich" />
+        </EntityType>
+        <EntityType Name="MucGia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Gia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TourDuLiches" Relationship="Self.FK__TourDuLic__idMuc__412EB0B6" FromRole="MucGia" ToRole="TourDuLich" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenDangNhap" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MatKhau" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TenHienThi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SoDienThoai" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Role" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Tien" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="DatTours" Relationship="Self.FK__DatTour__UserID__44FF419A" FromRole="TaiKhoan" ToRole="DatTour" />
+        </EntityType>
+        <EntityType Name="TinhThanh">
+          <Key>
+            <PropertyRef Name="ID_Tinh" />
+          </Key>
+          <Property Name="ID_Tinh" Type="Int32" Nullable="false" />
+          <Property Name="Ten" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TourDuLiches" Relationship="Self.FK__TourDuLic__idTin__3F466844" FromRole="TinhThanh" ToRole="TourDuLich" />
+        </EntityType>
+        <EntityType Name="TourDuLich">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TieuDe" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="HinhAnh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TripStart" Type="DateTime" Precision="3" />
+          <Property Name="TripEnd" Type="DateTime" Precision="3" />
+          <Property Name="LichTrinh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiaDiem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SoNguoiToiDa" Type="Int32" />
+          <Property Name="PhuongTien" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GiaTour" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="BaiViet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="idTinh" Type="Int32" />
+          <Property Name="idLoaiTour" Type="Int32" />
+          <Property Name="idMucGia" Type="Int32" />
+          <NavigationProperty Name="DatTours" Relationship="Self.FK__DatTour__ID__440B1D61" FromRole="TourDuLich" ToRole="DatTour" />
+          <NavigationProperty Name="LoaiTour" Relationship="Self.FK__TourDuLic__idLoa__403A8C7D" FromRole="TourDuLich" ToRole="LoaiTour" />
+          <NavigationProperty Name="MucGia" Relationship="Self.FK__TourDuLic__idMuc__412EB0B6" FromRole="TourDuLich" ToRole="MucGia" />
+          <NavigationProperty Name="TinhThanh" Relationship="Self.FK__TourDuLic__idTin__3F466844" FromRole="TourDuLich" ToRole="TinhThanh" />
+        </EntityType>
+        <Association Name="FK__DatTour__ID__440B1D61">
+          <End Role="TourDuLich" Type="Self.TourDuLich" Multiplicity="0..1" />
+          <End Role="DatTour" Type="Self.DatTour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TourDuLich">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DatTour">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DatTour__UserID__44FF419A">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="0..1" />
+          <End Role="DatTour" Type="Self.DatTour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="DatTour">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DatTourCh__Booki__47DBAE45">
+          <End Role="DatTour" Type="Self.DatTour" Multiplicity="1" />
+          <End Role="DatTourChiTiet" Type="Self.DatTourChiTiet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DatTour">
+              <PropertyRef Name="BookingID" />
+            </Principal>
+            <Dependent Role="DatTourChiTiet">
+              <PropertyRef Name="BookingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TourDuLic__idLoa__403A8C7D">
+          <End Role="LoaiTour" Type="Self.LoaiTour" Multiplicity="0..1" />
+          <End Role="TourDuLich" Type="Self.TourDuLich" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LoaiTour">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TourDuLich">
+              <PropertyRef Name="idLoaiTour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TourDuLic__idMuc__412EB0B6">
+          <End Role="MucGia" Type="Self.MucGia" Multiplicity="0..1" />
+          <End Role="TourDuLich" Type="Self.TourDuLich" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MucGia">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TourDuLich">
+              <PropertyRef Name="idMucGia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TourDuLic__idTin__3F466844">
+          <End Role="TinhThanh" Type="Self.TinhThanh" Multiplicity="0..1" />
+          <End Role="TourDuLich" Type="Self.TourDuLich" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TinhThanh">
+              <PropertyRef Name="ID_Tinh" />
+            </Principal>
+            <Dependent Role="TourDuLich">
+              <PropertyRef Name="idTinh" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DAPMDuLichEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DatTours" EntityType="Self.DatTour" />
+          <EntitySet Name="DatTourChiTiets" EntityType="Self.DatTourChiTiet" />
+          <EntitySet Name="LoaiTours" EntityType="Self.LoaiTour" />
+          <EntitySet Name="MucGias" EntityType="Self.MucGia" />
+          <EntitySet Name="TaiKhoans" EntityType="Self.TaiKhoan" />
+          <EntitySet Name="TinhThanhs" EntityType="Self.TinhThanh" />
+          <EntitySet Name="TourDuLiches" EntityType="Self.TourDuLich" />
+          <AssociationSet Name="FK__DatTour__ID__440B1D61" Association="Self.FK__DatTour__ID__440B1D61">
+            <End Role="TourDuLich" EntitySet="TourDuLiches" />
+            <End Role="DatTour" EntitySet="DatTours" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DatTour__UserID__44FF419A" Association="Self.FK__DatTour__UserID__44FF419A">
+            <End Role="TaiKhoan" EntitySet="TaiKhoans" />
+            <End Role="DatTour" EntitySet="DatTours" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DatTourCh__Booki__47DBAE45" Association="Self.FK__DatTourCh__Booki__47DBAE45">
+            <End Role="DatTour" EntitySet="DatTours" />
+            <End Role="DatTourChiTiet" EntitySet="DatTourChiTiets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TourDuLic__idLoa__403A8C7D" Association="Self.FK__TourDuLic__idLoa__403A8C7D">
+            <End Role="LoaiTour" EntitySet="LoaiTours" />
+            <End Role="TourDuLich" EntitySet="TourDuLiches" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TourDuLic__idMuc__412EB0B6" Association="Self.FK__TourDuLic__idMuc__412EB0B6">
+            <End Role="MucGia" EntitySet="MucGias" />
+            <End Role="TourDuLich" EntitySet="TourDuLiches" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TourDuLic__idTin__3F466844" Association="Self.FK__TourDuLic__idTin__3F466844">
+            <End Role="TinhThanh" EntitySet="TinhThanhs" />
+            <End Role="TourDuLich" EntitySet="TourDuLiches" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DAPMDuLichModelStoreContainer" CdmEntityContainer="DAPMDuLichEntities">
+          <EntitySetMapping Name="DatTours">
+            <EntityTypeMapping TypeName="DAPMDuLichModel.DatTour">
+              <MappingFragment StoreEntitySet="DatTour">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ThanhToan" ColumnName="ThanhToan" />
+                <ScalarProperty Name="MaThanhToan" ColumnName="MaThanhToan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DatTourChiTiets">
+            <EntityTypeMapping TypeName="DAPMDuLichModel.DatTourChiTiet">
+              <MappingFragment StoreEntitySet="DatTourChiTiet">
+                <ScalarProperty Name="BookingDetailID" ColumnName="BookingDetailID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="TravelerCount" ColumnName="TravelerCount" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoaiTours">
+            <EntityTypeMapping TypeName="DAPMDuLichModel.LoaiTour">
+              <MappingFragment StoreEntitySet="LoaiTour">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="idCapCha" ColumnName="idCapCha" />
+                <ScalarProperty Name="Ten" ColumnName="Ten" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MucGias">
+            <EntityTypeMapping TypeName="DAPMDuLichModel.MucGia">
+              <MappingFragment StoreEntitySet="MucGia">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Gia" ColumnName="Gia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaiKhoans">
+            <EntityTypeMapping TypeName="DAPMDuLichModel.TaiKhoan">
+              <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TenDangNhap" ColumnName="TenDangNhap" />
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+                <ScalarProperty Name="TenHienThi" ColumnName="TenHienThi" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Tien" ColumnName="Tien" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TinhThanhs">
+            <EntityTypeMapping TypeName="DAPMDuLichModel.TinhThanh">
+              <MappingFragment StoreEntitySet="TinhThanh">
+                <ScalarProperty Name="ID_Tinh" ColumnName="ID_Tinh" />
+                <ScalarProperty Name="Ten" ColumnName="Ten" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TourDuLiches">
+            <EntityTypeMapping TypeName="DAPMDuLichModel.TourDuLich">
+              <MappingFragment StoreEntitySet="TourDuLich">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TieuDe" ColumnName="TieuDe" />
+                <ScalarProperty Name="HinhAnh" ColumnName="HinhAnh" />
+                <ScalarProperty Name="TripStart" ColumnName="TripStart" />
+                <ScalarProperty Name="TripEnd" ColumnName="TripEnd" />
+                <ScalarProperty Name="LichTrinh" ColumnName="LichTrinh" />
+                <ScalarProperty Name="DiaDiem" ColumnName="DiaDiem" />
+                <ScalarProperty Name="SoNguoiToiDa" ColumnName="SoNguoiToiDa" />
+                <ScalarProperty Name="PhuongTien" ColumnName="PhuongTien" />
+                <ScalarProperty Name="GiaTour" ColumnName="GiaTour" />
+                <ScalarProperty Name="BaiViet" ColumnName="BaiViet" />
+                <ScalarProperty Name="idTinh" ColumnName="idTinh" />
+                <ScalarProperty Name="idLoaiTour" ColumnName="idLoaiTour" />
+                <ScalarProperty Name="idMucGia" ColumnName="idMucGia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

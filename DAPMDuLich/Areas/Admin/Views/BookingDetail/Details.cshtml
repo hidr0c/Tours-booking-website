@@ -1,0 +1,49 @@
+﻿@model DAPMDuLich.Models.DatTourChiTiet
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/layoutadmin.cshtml";
+}
+
+<h2>Booking</h2>
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DatTour.BookingID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DatTour.BookingID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price) VND
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TravelerCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TravelerCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateAt)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Quay về danh sách", "List", "Booking")
+</p>
+

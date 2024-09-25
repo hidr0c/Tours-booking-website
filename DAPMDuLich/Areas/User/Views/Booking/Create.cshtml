@@ -1,0 +1,105 @@
+﻿@model DAPMDuLich.Models.ViewModel.BookingViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/User/Views/Shared/LayoutCus.cshtml";
+}
+
+<link rel="stylesheet" href="~/CSS/animate.css" />
+<link rel="stylesheet" href="~/CSS/bootstrap.css" />
+<link rel="stylesheet" href="~/CSS/icomoon.css" />
+<link rel="stylesheet" href="~/CSS/owl.carousel.min.css" />
+<link rel="stylesheet" href="~/CSS/owl.theme.default.min.css" />
+<link rel="stylesheet" href="~/CSS/style.css" />
+
+@using (Html.BeginForm("Create", "Booking", Model, FormMethod.Post))
+{
+    <div class="gtco-section border-bottom">
+        <div class="gtco-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6 animate-box">
+                        <h3>Thông tin tour</h3>
+                        <form action="#">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <a>Tên tour: &nbsp;</a>
+                                    @Model.TieuDe
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <a>Mô tả : &nbsp;</a>
+                                    @Model.BaiViet
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <a>Ngày đi: &nbsp;</a>
+                                    @Model.TripStart
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <a>Ngày về: &nbsp;</a>
+                                    @Model.TripEnd
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <a>Số người tối đa : &nbsp;</a>
+                                    @Model.SoNguoiToiDa
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <a>Phương tiện: &nbsp;</a>
+                                    @Model.PhuongTien
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <a>Giá tour : &nbsp;</a>
+                                    @Model.GiaTour
+                                    VND
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-5 col-md-push-1 animate-box">
+                        <div class="gtco-contact-info">
+                            <h3>Thông tin của bạn</h3>
+                            <ul>
+                                <li class="row form-group">
+                                    <div class="col-md-12">
+                                        <a>Your name : &nbsp;</a>
+                                        @Model.HoTen
+                                    </div>
+                                </li>
+                                <li class="row form-group">
+                                    <div class="col-md-12">
+                                        <a>Email : &nbsp;</a>
+                                        @Model.Email
+                                    </div>
+                                </li>
+                                <li class="row form-group">
+                                    <div class="col-md-12">
+                                        <a>Số lượng người: &nbsp;</a>
+                                        @Html.EditorFor(model => model.TravelerCount, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.TravelerCount, "", new { @class = "text-danger" })
+                                    </div>
+                                </li>
+                                <li class="row form-group">
+                                    <div class="form-group">
+                                        <input type="submit" value="Xác nhận đặt tour" class="btn btn-success" />
+                                        @Html.ActionLink("Hủy", "Home", "Home", null, new { @class = "btn", style = "background-color: red; color: white; margin-left: 10px;" })
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
