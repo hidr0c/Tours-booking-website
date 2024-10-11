@@ -18,6 +18,7 @@ namespace DAPMDuLich.Models
         public TourDuLich()
         {
             this.DatTours = new HashSet<DatTour>();
+            this.Notifications = new HashSet<Notification>();
         }
     
         public int ID { get; set; }
@@ -34,11 +35,16 @@ namespace DAPMDuLich.Models
         public Nullable<int> idTinh { get; set; }
         public Nullable<int> idLoaiTour { get; set; }
         public Nullable<int> idMucGia { get; set; }
+        public int ContributorID { get; set; }
+        public Nullable<bool> Status { get; set; }
     
+        public virtual Contributor Contributor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DatTour> DatTours { get; set; }
         public virtual LoaiTour LoaiTour { get; set; }
         public virtual MucGia MucGia { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notifications { get; set; }
         public virtual TinhThanh TinhThanh { get; set; }
     }
 }

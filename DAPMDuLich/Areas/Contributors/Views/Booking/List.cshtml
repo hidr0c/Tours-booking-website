@@ -1,0 +1,80 @@
+﻿@model IEnumerable<DAPMDuLich.Models.DatTour>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Areas/Contributors/Views/Shared/_Layout.cshtml";
+    int i = 0;
+}
+
+<div class="row" style="margin-top:50px">
+    <div class="col-md-12">
+        <h3>DANH SÁCH ĐÃ ĐẶT TOUR</h3>
+    </div>
+    <div class="col-md-12">
+        <p>
+            <a href="~/Admin/Booking/Create">Thêm mới</a>
+        </p>
+        <table class="table table-bordered">
+            <tr>
+                <th>STT</th>
+                <th>ID Booking Tour</th>
+                <th>ID Khách Hàng</th>
+                <th>Tên khách hàng</th>
+                <th>Ngày Tạo</th>
+                <th>Trạng Thái Đặt Tour</th>
+                <th>Trạng Thái Thanh Toán</th>
+                <th>Mã thanh toán</th>
+                <th>#</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td>@i</td>
+                    <td>@item.BookingID</td>
+                    <td>@item.UserID</td>
+                    <td>@item.TaiKhoan.TenHienThi</td>
+                    <td>@item.CreateAt</td>
+                    <td>
+                        @{
+                            if (item.Status == null)
+                            {
+                                <span class="label label-default">Chưa xác định</span>
+                            }
+                            else if (item.Status == true)
+                            {
+                                <span class="label label-success">Đã xác nhận</span>
+                            }
+                            else
+                            {
+                                <span class="label label-danger">Đã hủy</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if (item.ThanhToan.HasValue && item.ThanhToan.Value)
+                            {
+                                <span class="label label-success">Đã thanh toán</span>
+                            }
+                            else
+                            {
+                                <span class="label label-danger">Chưa thanh toán</span>
+                            }
+                        }
+                    </td>
+                    <td>@item.MaThanhToan</td>
+                    <td>
+                        @Html.ActionLink("Danh Sách Chi Tiết", "Details", "BookingDetail", new { id = item.BookingID }, null) |
+                        @Html.ActionLink("Cập Nhật", "Edit", "Booking", new { id = item.BookingID }, null) |
+                        <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" style="margin-left: 10px;" onclick="if (confirm('Có muốn xóa không?')) { location.href='@Url.Action("Delete", "Booking", new { area = "Admin", id = item.BookingID })' }">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

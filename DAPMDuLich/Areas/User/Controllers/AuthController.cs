@@ -22,7 +22,7 @@ namespace DAPMDuLich.Areas.User.Controllers
         // POST: User/Register/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register([Bind(Include = "UserID,TenDangNhap,MatKhau,TenHienThi,Email,SoDienThoai,DiaChi,CreateAt,Role,Tien")] TaiKhoan users)
+        public ActionResult Register([Bind(Include = "ContributorID,TenDangNhap,MatKhau,TenHienThi,Email,SoDienThoai,DiaChi,CreateAt,Role,Tien")] TaiKhoan users)
         {
            
 

@@ -1,57 +1,98 @@
 ﻿@model IEnumerable<DAPMDuLich.Models.TaiKhoan>
 @{
-    ViewBag.Title = "DanhSach";
+    ViewBag.Title = "Danh Sách Tài Khoản Khách Hàng";
     Layout = "~/Areas/Admin/Views/Shared/layoutadmin.cshtml";
     int i = 0;
 }
 
 <div class="row" style="margin-top:50px">
     <div class="col-md-12">
-        <h3>DANH SÁCH TÀI KHOẢN</h3>
+        <h3>DANH SÁCH TÀI KHOẢN KHÁCH HÀNG</h3>
     </div>
     <div class="col-md-12">
         <p>
-            <a href="~/admin/Account/Create">Thêm mới</a>
+            <a href="@Url.Action("Create", "Account")" class="btn btn-primary">Thêm mới</a>
         </p>
-        <table class="table table-bordered">
-            <tr>
-                <th>STT</th>
-                <th>ID </th>
-                <th>Tên Đăng Nhập</th>
-                <th>Mật Khẩu</th>
-                <th>Họ Tên Đầy Đủ</th>
-                <th>Email</th>
-                <th>Số Điện Thoại</th>
-                <th>Địa Chỉ</th>
-                <th>Ngày Tạo</th>
-                <th>Vai Trò</th>
-                <th>Số tiền hiện có</th>
-                <th>#</th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
-                i++;
-                <tr>
-                    <td>@i</td>
-                    <td>@item.UserID</td>
-                    <td>@item.TenDangNhap</td>
-                    <td>@item.MatKhau</td>
-                    <td>@item.TenHienThi</td>
-                    <td>@item.Email</td>
-                    <td>@item.SoDienThoai</td>
-                    <td>@item.DiaChi</td>
-                    <td>@item.CreateAt</td>
-                    <td>@item.Role</td>
-                    <td>@item.Tien VND</td>
-                    <td>
-
-                        @Html.ActionLink("Cập nhật", "Edit", "Account", new { id = item.UserID }, null)
-
-                    </td>
-                </tr>
-            }
-
-        </table>
+        @if (!Model.Any())
+        {
+            <p>Không tìm thấy tài khoản nào phù hợp với từ khóa tìm kiếm.</p>
+        }
+        else
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>ID</th>
+                        <th>Tên Đăng Nhập</th>
+                        <th>Mật Khẩu</th>
+                        <th>Họ Tên Đầy Đủ</th>
+                        <th>Email</th>
+                        <th>Số Điện Thoại</th>
+                        <th>Địa Chỉ</th>
+                        <th>Ngày Tạo</th>
+                        <th>Vai Trò</th>
+                        <th>Số tiền hiện có</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        i++;
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.UserID</td>
+                            <td>@item.TenDangNhap</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="password" value="@item.MatKhau" id="password-@item.UserID" class="form-control password-field" readonly />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="#password-@item.UserID" data-userid="@item.UserID">
+                                            Xem
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@item.TenHienThi</td>
+                            <td>@item.Email</td>
+                            <td>@item.SoDienThoai</td>
+                            <td>@item.DiaChi</td>
+                            <td>@item.CreateAt.ToString("dd/MM/yyyy")</td>
+                            <td>@item.Role</td>
+                            <td>@item.Tien VND</td>
+                            <td>
+                                @Html.ActionLink("Cập nhật", "Edit", "Account", new { id = item.UserID })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 </div>
+
+<!-- Thêm Script để Xử Lý Toggling Mật Khẩu -->
+@section script {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+
+            togglePasswordButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const targetSelector = this.getAttribute('data-target');
+                    const passwordInput = document.querySelector(targetSelector);
+                    const userId = this.getAttribute('data-userid');
+
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        this.textContent = 'Ẩn'; // Thay đổi chữ thành "Ẩn"
+                    } else {
+                        passwordInput.type = 'password';
+                        this.textContent = 'Xem'; // Thay đổi chữ thành "Xem"
+                    }
+                });
+            });
+        });
+    </script>
+}

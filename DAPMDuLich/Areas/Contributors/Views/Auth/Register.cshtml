@@ -1,0 +1,139 @@
+﻿@model DAPMDuLich.Models.Contributor
+
+@{
+    ViewBag.Title = "DangKy";
+    //Layout = "~/Areas/User/Views/Shared/LayoutDN.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="register-container">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <label for="fullname">Tên đầy đủ(*)</label>
+            @Html.EditorFor(model => model.ContributorNickName, new { htmlAttributes = new { @class = "form-control", @id = "fullname" } })
+            @Html.ValidationMessageFor(model => model.ContributorNickName, "", new { @class = "text-danger" })
+
+            <label for="Username">Tên đăng nhập(*)</label>
+            @Html.EditorFor(model => model.ContributorName, new { htmlAttributes = new { @class = "form-control", @id = "fullname" } })
+            @Html.ValidationMessageFor(model => model.ContributorName, "", new { @class = "text-danger" })
+            <label for="email">Địa chỉ email(*)</label>
+            @Html.EditorFor(model => model.ContributorEmail, new { htmlAttributes = new { @class = "form-control", @id = "email" } })
+            @Html.ValidationMessageFor(model => model.ContributorEmail, "", new { @class = "text-danger" })
+
+            <label for="password">Số Điện Thoại(*)</label>
+            @Html.EditorFor(model => model.ContributorPhone, new { htmlAttributes = new { @class = "form-control", @type = "phone", @id = "phone" } })
+            @Html.ValidationMessageFor(model => model.ContributorPhone, "", new { @class = "text-danger" })
+
+            <label for="password">Địa chỉ(*)</label>
+            @Html.EditorFor(model => model.ContributorAddress, new { htmlAttributes = new { @class = "form-control", @type = "address", @id = "address" } })
+            @Html.ValidationMessageFor(model => model.ContributorAddress, "", new { @class = "text-danger" })
+            <label for="password">Mật khẩu(*)</label>
+            @Html.EditorFor(model => model.ContributorPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @id = "password" } })
+            @Html.ValidationMessageFor(model => model.ContributorPassword, "", new { @class = "text-danger" })
+
+            <label for="confirmPassword">Xác nhận mật khẩu(*)</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+
+
+
+            <div class="button-group">
+                <button type="submit" class="btn-primary">Đăng Ký</button>
+                <button type="reset" class="btn-secondary">Hủy</button>
+            </div>
+
+            <div class="login-link">
+                Đã có tài khoản? <a href="~/Areas/Contributors/Views/Auth/Login.cshtml">Đăng nhập</a>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    body {
+        background-image: url('/Areas/User/assets/HinhAnh/dangky.jpg');
+        background-size: cover;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .register-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        width: 320px;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+    }
+
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .register-container label {
+            font-size: 14px;
+        }
+
+        .register-container input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .register-container .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .register-container button {
+            width: 48%;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .register-container .btn-primary {
+            background-color: #007BFF;
+            color: white;
+        }
+
+            .register-container .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .register-container .btn-secondary {
+            background-color: #dc3545;
+            color: white;
+        }
+
+            .register-container .btn-secondary:hover {
+                background-color: #c82333;
+            }
+
+        .register-container .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: black;
+        }
+
+            .register-container .login-link a {
+                color: #007BFF;
+                text-decoration: none;
+            }
+</style>

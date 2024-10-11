@@ -123,7 +123,9 @@ namespace DAPMDuLich.Models
                 updateModel.TripStart = model.TripStart;
                 updateModel.TripEnd = model.TripEnd;
                 updateModel.SoNguoiToiDa = model.SoNguoiToiDa;
-
+                // Gán UserID từ model và set Status là null
+                updateModel.ContributorID = model.ContributorID; // Gán ContributorID
+                updateModel.Status = null; // Trạng thái chờ duyệt
                 db.SaveChanges();
                 return true;
             }

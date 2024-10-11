@@ -20,33 +20,20 @@ namespace DAPMDuLich.Areas.Admin.Controllers
             return View(db.DatTours.ToList());
         }
 
-        // GET: Admin/Bookings/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    DatTour booking = db.DatTours.Find(id);
-        //    if (booking == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.Status = booking.Status;
-        //    return View(booking);
-        //}
+        
         // GET: Admin/DatTourr/Create
         public ActionResult Create()
         {
             ViewBag.ID = new SelectList(db.TourDuLiches, "ID", "TieuDe");
             ViewBag.UserID = new SelectList(db.TaiKhoans, "UserID", "TenDangNhap");
+            ViewBag.ContributorID=new SelectList(db.Contributors,"ContributorID","ContributorName");
             return View();
         }
 
         // POST: Admin/DatTourr/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,UserID,Status,CreateAt,ThanhToan,MaThanhToan")] DatTour booking, int travelerCount)
+        public ActionResult Create([Bind(Include = "ID,UserID,ContributorID,Status,CreateAt,ThanhToan,MaThanhToan")] DatTour booking, int travelerCount)
         {
             if (ModelState.IsValid)
             {
@@ -85,6 +72,7 @@ namespace DAPMDuLich.Areas.Admin.Controllers
 
             ViewBag.ID = new SelectList(db.TourDuLiches, "ID", "TieuDe", booking.ID);
             ViewBag.UserID = new SelectList(db.TaiKhoans, "UserID", "TenDangNhap", booking.UserID);
+            ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "ContributorName",booking.ContributorID);
             return View(booking);
         }
 
@@ -114,7 +102,7 @@ namespace DAPMDuLich.Areas.Admin.Controllers
         // POST: Admin/DatTourr/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookingID,ID,UserID,Status,CreateAt,ThanhToan,MaThanhToan")] DatTour booking, int travelerCount)
+        public ActionResult Edit([Bind(Include = "BookingID,ID,UserID,ContributorID,Status,CreateAt,ThanhToan,MaThanhToan")] DatTour booking, int travelerCount)
         {
             if (ModelState.IsValid)
             {
@@ -149,6 +137,7 @@ namespace DAPMDuLich.Areas.Admin.Controllers
 
             ViewBag.ID = new SelectList(db.TourDuLiches, "ID", "TieuDe", booking.ID);
             ViewBag.UserID = new SelectList(db.TaiKhoans, "UserID", "TenDangNhap", booking.UserID);
+            ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "ContributorName", booking.ContributorID);
             ViewBag.TravelerCount = travelerCount; //cung cấp giá trị để hiển thị lên view thôi
             return View(booking);
         }
@@ -193,6 +182,29 @@ namespace DAPMDuLich.Areas.Admin.Controllers
             }
 
             return RedirectToAction("List");
+        }
+        // GET: Admin/Account/Search
+        public ActionResult Search(string searchQuery)
+        {
+            var accounts = db.DatTours.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                accounts = accounts.Where(a => a.TaiKhoan.TenHienThi.Contains(searchQuery)
+                                             || a.Contributor.ContributorName.Contains(searchQuery));
+                                             
+            }
+
+            return View("List", accounts.ToList());
+
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

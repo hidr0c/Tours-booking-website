@@ -14,7 +14,7 @@
     <!-- Tim Kiem -->
     <div class="col-12" style="padding: 10px 100px;">
         <div class="col-12" style="padding: 10px; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
-            <form action="@Url.Action("TimKiem", "Home", new { area = "User" })" method="get" style="display: flex; align-items: center;">
+            <form action="@Url.Action("SearchTour", "Home", new { area = "User" })" method="get" style="display: flex; align-items: center;">
                 <!-- Loại tour -->
                 <div class="col-2" style="padding: 0px 10px; flex: 1;">
                     <select style="width: 100%; height: 35px;" name="idLoaiTour">
@@ -61,22 +61,26 @@
         </h1>
     </div>
     <!-- Hang 1 -->
-    <div class="tour-container" style="display: flex; flex-wrap: wrap; gap: 20px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
         @foreach (var item in Model)
         {
-            <div class="tour-card" style="flex: 1 1 calc(33.333% - 20px); box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; padding: 10px; border-radius: 10px;">
-                <img src="@item.HinhAnh" alt="Tour Image" style="width: 100%; height: auto; border-radius: 10px;">
-                <div class="tour-info" style="padding: 10px;">
-                    <h2 style="font-size: 20px; margin: 10px 0;">@item.TieuDe</h2>
-                    <p style="margin: 5px 0;"><strong>Ngày đi:</strong> @item.TripStart</p>
-                    <p style="margin: 5px 0;"><strong>Ngày về:</strong> @item.TripEnd</p>
-                    <p style="margin: 5px 0;"><strong>Số người tối đa:</strong> @item.SoNguoiToiDa</p>
-                    <p style="margin: 5px 0;"><strong>Địa điểm:</strong> @item.DiaDiem</p>
-                    <p style="margin: 5px 0;"><strong>Giá tour:</strong> @item.GiaTour</p>
-                    <button style="padding: 10px 20px; background-color: #ffc700; border: none; border-radius: 5px; cursor: pointer;">Chi tiết</button>
+            <a href="@Url.Action("DetailTour", "DetailTour", new { id = item.ID })" style="text-decoration: none; color: inherit; flex: 1 1 calc(33.333% - 20px);">
+                <div class="tour-card" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; padding: 10px; border-radius: 10px; margin-bottom: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                    <div style="width: 100%; height: 400px; overflow: hidden; border-radius: 10px;">
+                        <img src="@item.HinhAnh" alt="Tour Image" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="tour-info" style="padding: 10px; flex-grow: 1;">
+                        <h2 style="font-size: 20px; margin: 10px 0;">@item.TieuDe</h2>
+                        <p style="margin: 5px 0;"><strong>Số ngày đi :</strong> @item.TripStart</p>
+                        <p style="margin: 5px 0;"><strong>Số ngày về:</strong> @item.TripEnd</p>
+                        <p style="margin: 5px 0;"><strong>Số người tối đa:</strong> @item.SoNguoiToiDa</p>
+                        <p style="margin: 5px 0;"><strong>Phương tiện:</strong> @item.PhuongTien</p>
+                        <p style="margin: 5px 0;"><strong>Địa điểm:</strong> @item.DiaDiem</p>
+                        <p style="margin: 5px 0;"><strong>Giá tour:</strong> @item.GiaTour VND</p>
+                    </div>
+                    <button style="padding: 10px 20px; background-color: #ffc700; border: none; border-radius: 5px; cursor: pointer; align-self: flex-end;">Chi tiết</button>
                 </div>
-            </div>
+            </a>
         }
     </div>
-</div>
 

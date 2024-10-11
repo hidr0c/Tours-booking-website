@@ -18,6 +18,7 @@ namespace DAPMDuLich.Models
         public TaiKhoan()
         {
             this.DatTours = new HashSet<DatTour>();
+            this.Notifications = new HashSet<Notification>();
         }
     
         public int UserID { get; set; }
@@ -34,5 +35,7 @@ namespace DAPMDuLich.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DatTour> DatTours { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

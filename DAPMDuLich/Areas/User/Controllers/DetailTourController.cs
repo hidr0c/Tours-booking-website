@@ -11,11 +11,11 @@ namespace DAPMDuLich.Areas.User.Controllers
     public class DetailTourController : Controller
     {
         // GET: User/DetailTour
-        [CheckPermissions(ChucNang = "TaiKhoan_ChiTiet")]
+        //[CheckPermissions(ChucNang = "TaiKhoan_ChiTiet")]
         public ActionResult DetailTour(int id)
         {
-            var user = (TaiKhoan)HttpContext.Session["user"];
-            var name = user.TenDangNhap;
+            //var user = (TaiKhoan)HttpContext.Session["user"];
+            //var name = user.TenDangNhap;
 
             using (DAPMDuLichEntities db = new DAPMDuLichEntities())
             {

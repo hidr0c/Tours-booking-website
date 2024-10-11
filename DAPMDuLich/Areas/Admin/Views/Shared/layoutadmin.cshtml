@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="~/Areas/Admin/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Areas/Admin/assets/css/atlantis.min.css">
     <link rel="stylesheet" href="~/Areas/Admin/assets/css/demo.css">
+
 </head>
 <body>
     <div class="wrapper">
@@ -47,23 +48,23 @@
             <!-- End Logo Header -->
             <!-- Navbar Header -->
             <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
-
                 <div class="container-fluid">
                     <div class="collapse" id="search-nav">
-                        <form class="navbar-left navbar-form nav-search mr-md-3">
+                        @using (Html.BeginForm("Search", ViewContext.RouteData.Values["controller"].ToString(), FormMethod.Get, new { @class = "navbar-left navbar-form nav-search mr-md-3" }))
+                        {
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <button type="submit" class="btn btn-search pr-1">
                                         <i class="fa fa-search search-icon"></i>
                                     </button>
                                 </div>
-                                <input type="text" placeholder="Search ..." class="form-control">
+                                <input type="text" name="searchQuery" placeholder="Search ..." class="form-control" value="@Request.QueryString["searchQuery"]" />
                             </div>
-                        </form>
+                        }
                     </div>
                 </div>
             </nav>
-            <!-- End Navbar -->
+            <!-- End Navbar Header -->
         </div>
         <!-- Sidebar -->
         <div class="sidebar sidebar-style-2">
@@ -103,22 +104,22 @@
                             <div class="collapse" id="base">
                                 <ul class="nav nav-collapse">
                                     @*<li>
-                                            <a href="~/Admin/TinhThanh/DanhSach">
-                                                <span class="sub-item">Tỉnh</span>
-                                            </a>
-                                        </li>*@
+                                <a href="~/Admin/TinhThanh/DanhSach">
+                                    <span class="sub-item">Tỉnh</span>
+                                </a>
+                            </li>*@
                                     @*<li>
-                                            <a href="components/buttons.html">
-                                                <span class="sub-item">Loại tour</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="components/gridsystem.html">
-                                                <span class="sub-item">Mức giá</span>
-                                            </a>
-                                        </li>
-                                        <li>*@
-                                    <a href="~/Admin/Tour/List">
+                                <a href="components/buttons.html">
+                                    <span class="sub-item">Loại tour</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="components/gridsystem.html">
+                                    <span class="sub-item">Mức giá</span>
+                                </a>
+                            </li>
+                            <li>*@
+                                    <a href="~/Admin/AwaitingApprovalTour/ListPendingTours">
                                         <span class="sub-item">Tour</span>
                                     </a>
                                     <a href="~/Admin/Booking/List">
@@ -138,15 +139,20 @@
                 <li class="nav-item">
                     <a href="~/Admin/Account/List">
                         <i class="fa fa-user" aria-hidden="true"></i>
-                        <p>Tài khoản</p>
+                        <p>Tài khoản Khách Hàng</p>
+                    </a>
+                    <a href="~/Admin/AccountContributor/List">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <p>Tài khoản Người cung cấp</p>
                     </a>
                 </li>
+                
                 @*<li class="nav-item">
-                        <a href="~/Admin/DatTourr/DanhSach">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            <p>Đặt tour</p>
-                        </a>
-                    </li>*@
+            <a href="~/Admin/DatTourr/DanhSach">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <p>Đặt tour</p>
+            </a>
+        </li>*@
                 </ul>
             </div>
         </div>

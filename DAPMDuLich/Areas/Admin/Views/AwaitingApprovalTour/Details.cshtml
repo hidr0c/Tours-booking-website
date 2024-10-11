@@ -1,0 +1,71 @@
+﻿@model DAPMDuLich.Models.TourDuLich
+
+@{
+    ViewBag.Title = "Chi Tiết Tour";
+    Layout = "~/Areas/Admin/Views/Shared/layoutadmin.cshtml";
+}
+
+<h2>Chi Tiết Tour: @Model.TieuDe</h2>
+
+<div>
+    <h4>Thông Tin Tour</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Tên Tour:</dt>
+        <dd>@Model.TieuDe</dd>
+
+        <dt>Hình Ảnh:</dt>
+        <dd><img src="@Model.HinhAnh" alt="Hình ảnh tour" style="width:200px; height:auto;" /></dd>
+
+        <dt>Thời Gian Bắt Đầu:</dt>
+        <dd>@(Model.TripStart.HasValue ? Model.TripStart.Value.ToString("dd/MM/yyyy") : "Chưa xác định")</dd>
+
+        <dt>Thời Gian Kết Thúc:</dt>
+        <dd>@(Model.TripEnd.HasValue ? Model.TripEnd.Value.ToString("dd/MM/yyyy") : "Chưa xác định")</dd>
+
+        <dt>Lịch Trình:</dt>
+        <dd>@Model.LichTrinh</dd>
+
+        <dt>Địa Điểm:</dt>
+        <dd>@Model.DiaDiem</dd>
+
+        <dt>Số Người Tối Đa:</dt>
+        <dd>@Model.SoNguoiToiDa</dd>
+
+        <dt>Phương Tiện:</dt>
+        <dd>@Model.PhuongTien</dd>
+
+        <dt>Giá Tour:</dt>
+        <dd>@Model.GiaTour</dd>
+
+        <dt>Bài Viết:</dt>
+        <dd>@Model.BaiViet</dd>
+
+        <dt>Trạng Thái:</dt>
+        <dd>
+            @if (Model.Status == null)
+            {
+                <span>Đang chờ duyệt bài...</span>
+            }
+            else if (Model.Status == true)
+            {
+                <span style="color: green;">Đã duyệt bài <i class="fa fa-check"></i></span>
+            }
+            else if (Model.Status == false)
+            {
+                <span style="color: red;">Đã từ chối duyệt bài <i class="fa fa-times"></i></span>
+            }
+        </dd>
+    </dl>
+
+    <div>
+        <form method="post" action="@Url.Action("UpdateStatusTour", "AwaitingApprovalTour")">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ID)
+
+            <button type="submit" name="status" value="true" class="btn btn-success">Chấp Nhận Duyệt Bài</button>
+            <button type="submit" name="status" value="false" class="btn btn-danger">Từ Chối Duyệt Bài</button>
+            <a href="@Url.Action("ListPendingTours", "AwaitingApprovalTour")" class="btn btn-default">Quay Lại Danh Sách</a>
+        </form>
+    </div>
+</div>

@@ -48,12 +48,12 @@
 
         document.getElementById('personal-info-btn').addEventListener('click', function (event) {
             event.preventDefault();
-            window.location.href = '@Url.Action("Details", "ThongTinCaNhan")';
+            window.location.href = '@Url.Action("Details", "InfomationCus")';
         });
 
         document.getElementById('personal-history-btn').addEventListener('click', function (event) {
             event.preventDefault();
-            window.location.href = '@Url.Action("History", "DatTour")';
+            window.location.href = '@Url.Action("History", "Booking")';
         });
 
         document.getElementById('logout-btn').addEventListener('click', function (event) {
@@ -64,7 +64,7 @@
                 credentials: 'same-origin'
             }).then(response => {
                 if (response.ok) {
-                    window.location.href = '@Url.Action("DangNhap", "TrangChu")';
+                    window.location.href = '@Url.Action("Login", "Auth")';
                 } else {
                     alert('Logout failed.');
                 }
@@ -93,7 +93,7 @@
     Menu
     <div class="col-12 menu">
         <ul>
-            <li><a href="~/TrangChu/Home" style="color:white">TRANG CHỦ</a></li>
+            <li><a href="@Url.Action("Home", "Home", new { area = "User" })" style="color:white">TRANG CHỦ</a></li>
             <li><a href="#" style="color:white">TOUR TRONG NƯỚC</a></li>
             <li><a href="#" style="color:white">TOUR NGOÀI NƯỚC</a></li>
             <li><a href="#" style="color:white">KIỂU TOUR DU LỊCH</a></li>

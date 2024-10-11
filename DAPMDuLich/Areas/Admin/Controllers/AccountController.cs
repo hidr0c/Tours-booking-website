@@ -62,7 +62,7 @@ namespace DAPMDuLich.Areas.Admin.Controllers
             //6. Tài khoản đăng nhập ok: Lưu lại session server
             Session["user"] = taiKhoan;
 
-            
+
 
             //8. Chuyển hướng sang trang chủ Admin 
             return Redirect("/Admin/HomeAdmin/Index");
@@ -76,11 +76,11 @@ namespace DAPMDuLich.Areas.Admin.Controllers
         }
 
 
-        public ActionResult Detail(string tenDangNhap)
-        {
-            var taikhoan = new mapTaiKhoan().ChiTiet(tenDangNhap);
-            return View(taikhoan);
-        }
+        //public ActionResult Detail(string tenDangNhap)
+        //{
+        //    var taikhoan = new mapTaiKhoan().ChiTiet(tenDangNhap);
+        //    return View(taikhoan);
+        //}
 
         // GET: Admin/TaiKhoan/Create
         //Thêm tài khoản
@@ -149,51 +149,28 @@ namespace DAPMDuLich.Areas.Admin.Controllers
             }
             return View(taiKhoanKH);
         }
-        //public ActionResult PhanQuyen(string tenDangNhap, string maChucNang)
-        //{
-        //    var db = new DuLichDBEntities();
-        //    var phanQuyen = db.PhanQuyens.SingleOrDefault(m => m.TenDangNhap == tenDangNhap & m.MaChucNang == maChucNang);
-        //    if (phanQuyen != null)
-        //    {
-        //        db.PhanQuyens.Remove(phanQuyen);
-        //        db.SaveChanges();
-        //    }
-        //    else
-        //    {
-        //        phanQuyen = new PhanQuyen();
-        //        phanQuyen.TenDangNhap = tenDangNhap;
-        //        phanQuyen.MaChucNang = maChucNang;
-        //        db.PhanQuyens.Add(phanQuyen);
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("ChiTiet", new { tenDangNhap = tenDangNhap });
-        //}
-        //[HttpPost]
-        //public JsonResult PhanQuyenJson(string tenDangNhap, string maChucNang)
-        //{
-        //    var db = new DuLichDBEntities();
-        //    var phanQuyen = db.PhanQuyens.SingleOrDefault(m => m.TenDangNhap == tenDangNhap & m.MaChucNang == maChucNang);
-        //    if (phanQuyen != null)
-        //    {
-        //        db.PhanQuyens.Remove(phanQuyen);
-        //        db.SaveChanges();
-        //    }
-        //    else
-        //    {
-        //        phanQuyen = new PhanQuyen();
-        //        phanQuyen.TenDangNhap = tenDangNhap;
-        //        phanQuyen.MaChucNang = maChucNang;
-        //        db.PhanQuyens.Add(phanQuyen);
-        //        db.SaveChanges();
-        //    }
-        //    return Json(new
-        //    {
-        //        status = "Đã phân quyền"
-        //    });
-        //}
-        //public ActionResult BaoChuaPhanQuyen()
-        //{
-        //    return View();
-        //}
+        // GET: Admin/Account/Search
+        public ActionResult Search(string searchQuery)
+        {
+            var accounts = db.TaiKhoans.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                accounts = accounts.Where(a => a.TenDangNhap.Contains(searchQuery)
+                                             || a.TenHienThi.Contains(searchQuery)
+                                             || a.Email.Contains(searchQuery));
+            }
+
+            return View("List", accounts.ToList());
+
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

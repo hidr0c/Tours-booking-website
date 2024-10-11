@@ -1,0 +1,20 @@
+﻿@model List<DAPMDuLich.Models.TaiKhoan>
+@{
+    ViewBag.Title = "SearchResults";
+    Layout = "~/Areas/Admin/Views/Shared/layoutadmin.cshtml";
+}
+
+@if (Model.Count == 0)
+{
+    <div class="dropdown-item">Không tìm thấy kết quả phù hợp.</div>
+}
+else
+{
+    foreach (var account in Model)
+    {
+        <a href="@Url.Action("Edit", new { id = account.UserID })" class="dropdown-item">
+            <strong>@account.TenHienThi</strong> - @account.TenDangNhap
+        </a>
+    }
+}
+

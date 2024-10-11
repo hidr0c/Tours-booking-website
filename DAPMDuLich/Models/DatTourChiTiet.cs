@@ -17,7 +17,7 @@ namespace DAPMDuLich.Models
         public int BookingDetailID { get; set; }
         public int BookingID { get; set; }
         public Nullable<decimal> Price { get; set; }
-        public Nullable<int> TravelerCount { get; set; }
+        public int TravelerCount { get; set; }
         public System.DateTime CreateAt { get; set; }
     
         public virtual DatTour DatTour { get; set; }

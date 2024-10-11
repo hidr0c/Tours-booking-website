@@ -17,7 +17,8 @@
             <tr>
                 <th>STT</th>
                 <th>ID Booking Tour</th>
-                <th>ID Khách Hàng</th>
+                <th>Tên Khách Hàng</th>
+                <th>Đặt tour của công ty</th>
                 <th>Ngày Tạo</th>
                 <th>Trạng Thái Đặt Tour</th>
                 <th>Trạng Thái Thanh Toán</th>
@@ -31,7 +32,8 @@
                 <tr>
                     <td>@i</td>
                     <td>@item.BookingID</td>
-                    <td>@item.UserID</td>
+                    <td>@item.TaiKhoan.TenHienThi</td>
+                    <td>@item.Contributor.ContributorNickName</td>
                     <td>@item.CreateAt</td>
                     <td>
                         @{

@@ -19,13 +19,12 @@ namespace DAPMDuLich.Areas.User.Controllers
         // GET: User/Booking
         // GET: DatTour
         DAPMDuLichEntities database = new DAPMDuLichEntities();
-      
 
+        [CheckPermissions(ChucNang = "TaiKhoan_ChiTiet")]
         public async Task<ActionResult> Create(int? id)
         {
             if (id == null)
             {
-                // Handle the case when id is not provided
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "ID is required.");
             }
 
@@ -33,8 +32,12 @@ namespace DAPMDuLich.Areas.User.Controllers
             var name = user.TenDangNhap;
 
             var taiKhoanKH = await database.TaiKhoans.SingleOrDefaultAsync(x => x.TenDangNhap == name);
-            var tourDuLich = await database.TourDuLiches.SingleOrDefaultAsync(t => t.ID == id);
-            var datTourChiTiet = database.DatTourChiTiets;
+            var tourDuLich = await database.TourDuLiches.Include(t => t.Contributor) // Bao gồm thông tin Contributor
+                                               .SingleOrDefaultAsync(t => t.ID == id);
+            if (tourDuLich == null)
+            {
+                return HttpNotFound("Tour không tồn tại.");
+            }
 
             var bookingViewModel = new BookingViewModel()
             {
@@ -59,13 +62,13 @@ namespace DAPMDuLich.Areas.User.Controllers
         {
             try
             {
-                var useriId = (TaiKhoan)HttpContext.Session["user"];
-                if (useriId == null)
+                var userSession = (TaiKhoan)HttpContext.Session["user"];
+                if (userSession == null)
                 {
                     return Content("Tài khoản KH session không tìm thấy");
                 }
 
-                var user = await database.TaiKhoans.SingleOrDefaultAsync(x => x.TenDangNhap == useriId.TenDangNhap);
+                var user = await database.TaiKhoans.SingleOrDefaultAsync(x => x.TenDangNhap == userSession.TenDangNhap);
                 if (user == null)
                 {
                     return Content("Tài khoản KH không tìm thấy trong database");
@@ -73,12 +76,24 @@ namespace DAPMDuLich.Areas.User.Controllers
 
                 // Kiểm tra tổng số người đã đặt tour hiện tại
                 var totalCurrentBookings = SumTraveler(model.ID);
+                if (!ModelState.IsValid || !model.TravelerCount.HasValue || model.TravelerCount <= 0)
+                {
+                    ModelState.AddModelError("TravelerCount", "Hãy nhập số lượng người lớn hơn 0.");
+                    return View(model);
+                }
 
                 // Kiểm tra nếu tổng số người đã đặt tour cộng với số người trong đơn đặt mới vượt quá số lượng người tối đa
                 if (totalCurrentBookings + model.TravelerCount > model.SoNguoiToiDa)
                 {
                     ModelState.AddModelError("TravelerCount", "Tour đã đầy chỗ.");
                     return View(model);
+                }
+
+                // Lấy thông tin Tour để lấy ContributorID
+                var tourDuLich = await database.TourDuLiches.SingleOrDefaultAsync(t => t.ID == model.ID);
+                if (tourDuLich == null)
+                {
+                    return Content("Tour không tồn tại.");
                 }
 
                 int bookingId;
@@ -97,8 +112,8 @@ namespace DAPMDuLich.Areas.User.Controllers
                     ThanhToan = false,
                     ID = model.ID,
                     CreateAt = DateTime.Now,
-          
-
+                    ContributorID = tourDuLich.ContributorID,
+                   
                 };
 
                 database.DatTours.Add(datTour);
@@ -107,13 +122,25 @@ namespace DAPMDuLich.Areas.User.Controllers
                 var datTourChiTiet = new DatTourChiTiet()
                 {
                     BookingID = datTour.BookingID,
-                    TravelerCount = model.TravelerCount,
+                    TravelerCount = model.TravelerCount.Value,
                     CreateAt = DateTime.Now,
                     Price = model.GiaTour * model.TravelerCount - (model.GiaTour * model.TravelerCount) * 3 / 100,
                 };
                 database.DatTourChiTiets.Add(datTourChiTiet);
                 await database.SaveChangesAsync();
 
+                var notification = new Notification()
+                {
+                    ContributorID = tourDuLich.ContributorID,
+                    UserID=user.UserID,
+                    ID=tourDuLich.ID,
+                    BookingID=datTour.BookingID,
+                    IsRead = false,
+                    CreateAt= DateTime.Now,
+                };
+                database.Notifications.Add(notification);
+                await database.SaveChangesAsync();  
+                
                 return RedirectToAction("History");
             }
             catch (DbEntityValidationException ex)
@@ -189,25 +216,33 @@ namespace DAPMDuLich.Areas.User.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-
-            // Find the booking by ID từ DatTour và DatTourChiTiet
+            // Tìm booking theo ID từ bảng DatTour và DatTourChiTiet
             DatTour booking = database.DatTours.Include(b => b.DatTourChiTiets).FirstOrDefault(b => b.BookingID == id);
 
             if (booking != null)
             {
-                // Phải xóa cái bookingid từ bảng DatTourChiTiet trc 
+                // Xóa tất cả các bản ghi trong bảng Notifications có liên quan đến BookingID
+                var notifications = database.Notifications.Where(n => n.BookingID == booking.BookingID).ToList();
+                foreach (var notification in notifications)
+                {
+                    database.Notifications.Remove(notification);
+                }
+
+                // Lưu các thay đổi để xóa các thông báo trước khi xóa booking
+                database.SaveChanges();
+
+                // Xóa các chi tiết đặt tour
                 foreach (var detail in booking.DatTourChiTiets.ToList())
                 {
                     database.DatTourChiTiets.Remove(detail);
                 }
 
-                // Remove the booking
+                // Xóa booking
                 database.DatTours.Remove(booking);
 
-                // Save changes
+                // Lưu thay đổi lần nữa
                 database.SaveChanges();
             }
-
 
             return RedirectToAction("History", "Booking", new { id = booking.ID });
         }

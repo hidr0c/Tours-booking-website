@@ -69,6 +69,13 @@
                             <span class="label label-success">Đã thanh toán</span>
                         }
                     </div>
+                        @Html.ActionLink(
+                        "Thanh toán bằng Paypal",
+                        "PaymentWithPaypal",
+                        "BookingDetail",
+                        new { area = "User", bookingDetailID = Model.BookingDetailID },
+                        new { @class = "btn btn-success" }
+                    )
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">

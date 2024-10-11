@@ -1,0 +1,65 @@
+﻿@model IEnumerable<DAPMDuLich.Models.TourDuLich>
+@{
+    ViewBag.Title = "DanhSach";
+    Layout = "~/Areas/Admin/Views/Shared/layoutadmin.cshtml";
+    int i = 0;
+}
+
+<div class="row" style="margin-top:50px">
+    <div class="col-md-12">
+        <h3>DANH SÁCH CHỜ DUYỆT TOUR</h3>
+    </div>
+    <div class="col-md-12">
+        @*<p>
+            <a href="~/Admin/Tour/Create">Thêm mới</a>
+        </p>*@
+        <table class="table table-bordered ">
+            <tr>
+                <th>STT</th>
+                <th>Số ID khách hàng</th>
+                <th>Tên khách hàng</th>
+                <th>Tour ID</th>
+                <th>Trạng thái duyệt bài</th>
+                
+                <th>#</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                i++;
+                <tr>
+                    <td>@i</td>
+                    <td>
+                        @item.ContributorID
+                    </td>
+                    <td>
+                        @item.Contributor.ContributorNickName
+                    </td>
+                    <td>@item.ID</td>
+                    <td>
+                        @if (item.Status == null)
+                        {
+                            <span>Đang chờ duyệt bài... </span>
+                        }
+                        else if (item.Status == true)
+                        {
+                            <span style="color: green;">Đã duyệt bài <i class="fa fa-check"></i></span>
+                        }
+                        else if (item.Status == false)
+                        {
+                            <span style="color: red;">Đã từ chối duyệt bài <i class="fa fa-times"></i></span>
+                        }
+                    </td>
+
+                    <td>
+                        <a href="@Url.Action("Details", "AwaitingApprovalTour", new { id = item.ID })">Xem chi tiết bài viết</a>
+                        <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" style="margin-left: 10px;" onclick="if (confirm('Có muốn xóa không?')) { location.href='/Admin/Tour/Delete?idTour=@item.ID' }">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

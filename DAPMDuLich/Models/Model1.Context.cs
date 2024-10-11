@@ -25,10 +25,13 @@ namespace DAPMDuLich.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<DatTour> DatTours { get; set; }
+        public virtual DbSet<Contributor> Contributors { get; set; }
         public virtual DbSet<DatTourChiTiet> DatTourChiTiets { get; set; }
+        public virtual DbSet<DatTour> DatTours { get; set; }
         public virtual DbSet<LoaiTour> LoaiTours { get; set; }
         public virtual DbSet<MucGia> MucGias { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
         public virtual DbSet<TinhThanh> TinhThanhs { get; set; }
         public virtual DbSet<TourDuLich> TourDuLiches { get; set; }

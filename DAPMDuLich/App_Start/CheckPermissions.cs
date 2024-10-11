@@ -15,6 +15,7 @@ namespace DAPMDuLich.App_Start
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var user = (TaiKhoan)HttpContext.Current.Session["user"];
+            
 
             // Nếu chưa có session thì chuyển hướng đến trang đăng nhập
             if (user == null)
@@ -33,12 +34,13 @@ namespace DAPMDuLich.App_Start
                 );
                 return;
             }
+          
             // Kiểm tra Role của user
-            if (user.Role == "admin")
-            {
-               
-                return;
-            }
+            //if (user.Role == "admin" /*|| user.Role == "contributor"*/)
+            //{
+
+            //    return;
+            //}
 
 
             // Nếu không điền chức năng => Cho phép chạy

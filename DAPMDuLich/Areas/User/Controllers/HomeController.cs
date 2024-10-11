@@ -13,9 +13,11 @@ namespace DAPMDuLich.Areas.User.Controllers
         // GET: TrangChu
         public ActionResult Home()
         {
-            DAPMDuLichEntities db = new DAPMDuLichEntities();
-            //1.Lấy danh sách
-            var danhSachTour = db.TourDuLiches.ToList();
+            // Lấy danh sách tour chỉ hiển thị các bài có Status là true (đã duyệt)
+            var danhSachTour = db.TourDuLiches
+                                 .Where(t => t.Status != null && t.Status == true)
+                                 .ToList();
+
             return View(danhSachTour);
         }
 
